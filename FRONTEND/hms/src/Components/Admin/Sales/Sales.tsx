@@ -362,7 +362,7 @@ const Sales = () => {
                     {
                         saleItems?.map((data: any, index: number) => {
                             return (
-                                <Card shadow="sm" key={medicine.id} padding="lg" radius="md" withBorder>
+                                <Card shadow="sm" key={index} padding="lg" radius="md" withBorder>
                                     <Card.Section withBorder inheritPadding py="xs">
                                         <Group justify="space-between">
                                             <Text fw={700} size="xl">
