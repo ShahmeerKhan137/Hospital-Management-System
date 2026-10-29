@@ -1,4 +1,4 @@
-# 1. User Microservice
+# 1. user-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,11 +17,22 @@ spec:
       containers:
         - name: user-service
           image: shahmeer138/hms-user:v1
+          resources:
+            requests:
+              memory: "350Mi"
+              cpu: "100m"
+            limits:
+              memory: "650Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8081
           env:
+            - name: SERVER_PORT
+              value: "8081"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx300m -XX:+UseG1GC"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://mysql:3306/user_db?createDatabaseIfNotExist=true&useSSL=false"
+              value: "jdbc:mysql://mysql:3306/user_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -40,11 +51,12 @@ metadata:
 spec:
   ports:
     - port: 8081
+      targetPort: 8081
   selector:
     app: user-service
 
 ---
-# 2. Profile Microservice
+# 2. profile-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,11 +75,22 @@ spec:
       containers:
         - name: profile-service
           image: shahmeer138/hms-profile:v1
+          resources:
+            requests:
+              memory: "350Mi"
+              cpu: "100m"
+            limits:
+              memory: "650Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8082
           env:
+            - name: SERVER_PORT
+              value: "8082"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx300m -XX:+UseG1GC"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://mysql:3306/profile_db?createDatabaseIfNotExist=true&useSSL=false"
+              value: "jdbc:mysql://mysql:3306/profile_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -86,11 +109,12 @@ metadata:
 spec:
   ports:
     - port: 8082
+      targetPort: 8082
   selector:
     app: profile-service
 
 ---
-# 3. Appointment Microservice
+# 3. appointment-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -109,11 +133,22 @@ spec:
       containers:
         - name: appointment-service
           image: shahmeer138/hms-appointment:v1
+          resources:
+            requests:
+              memory: "350Mi"
+              cpu: "100m"
+            limits:
+              memory: "650Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8083
           env:
+            - name: SERVER_PORT
+              value: "8083"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx300m -XX:+UseG1GC"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://mysql:3306/appointment_db?createDatabaseIfNotExist=true&useSSL=false"
+              value: "jdbc:mysql://mysql:3306/appointment_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -132,11 +167,12 @@ metadata:
 spec:
   ports:
     - port: 8083
+      targetPort: 8083
   selector:
     app: appointment-service
 
 ---
-# 4. Pharmacy Microservice
+# 4. pharmacy-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -155,11 +191,22 @@ spec:
       containers:
         - name: pharmacy-service
           image: shahmeer138/hms-pharmacy:v1
+          resources:
+            requests:
+              memory: "350Mi"
+              cpu: "100m"
+            limits:
+              memory: "650Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8084
           env:
+            - name: SERVER_PORT
+              value: "8084"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx300m -XX:+UseG1GC"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://mysql:3306/pharmacy_db?createDatabaseIfNotExist=true&useSSL=false"
+              value: "jdbc:mysql://mysql:3306/pharmacy_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -178,11 +225,12 @@ metadata:
 spec:
   ports:
     - port: 8084
+      targetPort: 8084
   selector:
     app: pharmacy-service
 
 ---
-# 5. Media Microservice
+# 5. media-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -201,11 +249,22 @@ spec:
       containers:
         - name: media-service
           image: shahmeer138/hms-media:v1
+          resources:
+            requests:
+              memory: "350Mi"
+              cpu: "100m"
+            limits:
+              memory: "650Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8085
           env:
+            - name: SERVER_PORT
+              value: "8085"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx300m -XX:+UseG1GC"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://mysql:3306/media_db?createDatabaseIfNotExist=true&useSSL=false"
+              value: "jdbc:mysql://mysql:3306/media_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -224,11 +283,12 @@ metadata:
 spec:
   ports:
     - port: 8085
+      targetPort: 8085
   selector:
     app: media-service
 
 ---
-# 6. Gateway Microservice (NodePort for external access)
+# 6. gateway-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -247,11 +307,24 @@ spec:
       containers:
         - name: gateway-service
           image: shahmeer138/hms-gateway:v1
+          resources:
+            requests:
+              memory: "350Mi"
+              cpu: "100m"
+            limits:
+              memory: "650Mi"
+              cpu: "500m"
           ports:
-            - containerPort: 8080
+            - containerPort: 9000
           env:
+            - name: SERVER_PORT
+              value: "9000"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx300m -XX:+UseG1GC"
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: "http://eureka-service:8761/eureka/"
+            - name: SPRING_APPLICATION_JSON
+              value: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eureka-service:8761/eureka/"}}},"spring":{"cloud":{"gateway":{"globalcors":{"cors-configurations":{"[''/**'']":{"allowedOrigins":["*"],"allowedMethods":["*"],"allowedHeaders":["*"]}}}}}}}'
 ---
 apiVersion: v1
 kind: Service
@@ -261,8 +334,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 9000
+      targetPort: 9000
       nodePort: 30080
   selector:
     app: gateway-service
